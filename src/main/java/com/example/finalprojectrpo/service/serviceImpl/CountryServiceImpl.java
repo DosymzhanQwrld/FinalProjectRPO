@@ -21,12 +21,11 @@ public class CountryServiceImpl implements CountryService {
     }
 
     @Override
-    public void addCountry(CountryDto countryDto) {
-        countryRepository.save(countryMapper.toEntity(countryDto));
+    public CountryDto addCountry(CountryDto countryDto) {
+        return countryMapper.toDto(countryRepository.save(countryMapper.toEntity(countryDto)));
     }
 
     @Override
-    public void getById(Long id) {
-        countryMapper.toDto(countryRepository.findById(id).orElse(null));
-    }
+    public CountryDto getById(Long id) {
+        return countryMapper.toDto(countryRepository.findById(id).orElse(null));}
 }
