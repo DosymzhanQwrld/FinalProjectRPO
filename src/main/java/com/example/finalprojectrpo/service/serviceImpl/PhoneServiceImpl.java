@@ -35,13 +35,17 @@ public class PhoneServiceImpl implements PhoneService {
         return phoneMapper.toDto(savedPhone);
     }
 
-    @Override
-    public PhoneDto updPhone(Long id, PhoneDto phoneDto) {
-        Phone phone = phoneRepository.findById(id).orElseThrow();
+    @Override public PhoneDto updPhone(Long id, PhoneDto phoneDto) {
+        Phone phone = phoneRepository.findById(id).orElse(null);
+        Phone phoneEntity = phoneMapper.toEntity(phoneDto);
         phone.setName(phoneDto.getNameDto());
         phone.setDescription(phoneDto.getDescriptionDto());
         phone.setPrice(phoneDto.getPriceDto());
-        return phoneMapper.toDto(phoneRepository.save(phone));
+        phone.setBrand(phoneEntity.getBrand());
+        phone.setCountries(phoneEntity.getCountries());
+
+        phoneRepository.save(phone);
+        return phoneDto;
     }
 
     @Override
